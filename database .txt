@@ -1,0 +1,58 @@
+﻿BJJ Strength and Conditioning Database Specification
+I. Foundational Movements (The Six Essential Categories)
+These categories form the foundation of training, designed to make BJJ athletes stronger, faster, more explosive, and more durable against injury.
+Movement Category
+	Primary Exercises Cited (Base)
+	Variations & Advanced Methods Cited
+	BJJ Application & Context
+	1. Squat / Leg Drive
+	Barbell Squat (Back Squat), Front Squat, Split Squat, Zurcher Squat, Kettlebell Goblet Squat.
+	Safety Squat Bar squat, Box Squat, Front Box Squat, Belt Squat, Rear Foot Elevated Split Squat (Bulgarian split squat).
+	Builds a sturdy and strong base. Split squats increase explosiveness when changing levels for takedowns. Crucial for demanding hip flexibility.
+	2. Hip Hinge / Hip Extension
+	Deadlift, Barbell Hip Thrust, Kettlebell Swings.
+	Trap Bar Deadlift, Deadlift from blocks/in the rack, Clean Pulls, Snatch Pulls, Clean High Pulls, Hip Thrust with resistance band or dumbbell, Isometric Mid-Thigh Pull.
+	Very valuable movement pattern for the standing game, passing, and developing power to drive hips in. The Hip Thrust mimics the bridging position important for reversals, sweeps, and submissions.
+	3. Upper Body Pull
+	Pull-Ups (classic bodyweight), Bent-Over Rows, Seated Cable Rows, Cable Face Pulls.
+	Pull-Up Variations (monkey grip, gi, towel, chin-ups, weighted, negatives/eccentric focus), Single Arm Dumbbell Row, Complex Pull-ups (with long eccentric and trunk movement).
+	Upper body pulling is potentially more impactful to BJJ success than pressing strength. Rows build grip strength, back, and core, translating well to techniques requiring pulling power.
+	4. Upper Body Push
+	Bench Press (Barbell), Dumbbell Bench Press, Floor Press, Dips (body weight).
+	Floor Press (with Swiss bar or neutral grip bar), Dumbbell Z Press, Board Press variation, Unilateral Dumbbell Bench Press with grips (for isometric hold).
+	Improves strength for creating space, framing, or pushing the opponent. Floor press limits range of motion to protect shoulders.
+	5. Twisting / Rotation
+	Barbell Russian Twist, Medicine Ball Slams/Throws, Rotational Core Exercise (with band and medicine ball).
+	Medicine Ball Rotational Rebound.
+	Important for rotational movement patterns and power generation, both on the feet and on the ground.
+	6. Carrying / Grip Work
+	Farmer’s Walk, Rope Climbs, Dead Hang, Wrist Curls.
+	Single Arm Farmer’s Walk, Plate Flips, Plate Holds/Two Plate Holds, Keg or Sandbag Front Carries, Kettlebell Front Rack Walk, Rock Climbing.
+	Excellent for developing grip strength, which aids in controlling the opponent or finishing a submission. Rope climbs build the endurance needed to hold positions for an extended period.
+	II. Advanced Modalities and BJJ-Specific Techniques
+These exercises and concepts integrate the necessary speed, tension, and power characteristics essential for grappling performance.
+Modality Type
+	Exercise Examples
+	Specific Instructions and Purpose
+	Intensity/Frequency
+	Ballistic Power
+	Box Jump, Power Cleans, Snatch, Jerk, Ballistic Push Ups.
+	Ballistic movements are preferred over plyometric drills because dynamic movements are far more common in BJJ. The bar must move fast, or the movement must be explosive.
+	Loads of 40–60% of 1 rep max for speed adaptations.
+	Isometric Training
+	Dead Hang, Plate Hold/Carry, Paused Squats, Stretched Back Squat (holding position for 7 seconds).
+	Isometric overload training (where muscles activate but don't change length) is great for BJJ athletes who are often held or holding positions under tension.
+	Varies; long duration isometrics may be held for up to five minutes.
+	Psycho Isometric Training
+	Explosive Push-ups performed 40 seconds after an isometric dumbbell bench hold; Knee Jump (especially followed by hurdle hops) after an isometric squat hold.
+	Uses isometric movements to shock the musculature and lead to better power output. Trains the ability to react quickly from stretched, elongated positions.
+	Should only be done about once a week due to the high stress involved.
+	Eccentric Overload
+	Controlled lowering during pull-ups, Slow count during squats or deadlifts.
+	Emphasis on the lengthening phase of movement (going "down") to improve strength, hypertrophy, and range of motion.
+	Use a long eccentric count (e.g., 3 to 5 count).
+	Accessory/Isolation
+	Hammer Curls, Single Arm Kettlebell Shoulder Press, Plate Flips.
+	Hammer curls prevent bicep-related injuries and strengthen the wrist and tendons. Plate flips enhance the ability to grab the opponent quickly.
+	Varies based on program goals.
+	III. Database Management and Customization

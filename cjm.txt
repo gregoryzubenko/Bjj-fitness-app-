@@ -1,0 +1,82 @@
+﻿Step in CJM
+	User Action & System Input
+	Strategic System Logic/Output
+	Principle Supported (Source)
+	Initial Assessment & Goals
+	User launches the app and inputs personal details including gender, age, size, experience, recovery, and competitive goals (e.g., competition date).
+	System utilizes proprietary algorithms to begin building a program specifically for the user's needs.
+	Individualization: The periodization plan must be dynamic and adapted to the athlete-specific goal.
+	Strength Metrics Input
+	User provides current max lifts (e.g., max bench, max deadlift, etc.) or estimates their 1 Rep Max (1RM).
+	System establishes the fundamental variable of training intensity (%1RM).
+	Strength Stimulus: To develop unbeatable strength, training must occur at over 80% of maximum effort for 3–5 reps in each movement.
+	Macrocycle Generation
+	(System runs automatically).
+	System maps out the long-term plan (macrocycle) and schedules the necessary training blocks (mesocycles), ensuring a gradual progression from high-volume/low-intensity to low-volume/high-intensity.
+	Competition Peaking: The system can handle any length of training block (from 4+ weeks) to specifically prepare the user for their competition date.
+	Phase 2: Microcycle Planning and Preparation (Contextualization)
+The system prepares the daily workout based on the strategic plan and BJJ schedule.
+Step in CJM
+	User Action & Feature Display
+	Strategic System Logic/Output
+	Principle Supported (Source)
+	Phase Check
+	System identifies the current mesocycle (e.g., Stabilization Endurance, Maximal Strength, or Power phase).
+	This dictates the acute variables for the day, including the load percentage, tempo (e.g., slow tempo 4/2/1 for Stabilization Endurance), volume of reps and sets.
+	Structured Progression: Each phase builds upon the last, improving work capacity and preparing the body for higher intensities.
+	Exercise List Display
+	System displays the "Exercise list fro the workout", ensuring coverage of the six most important movement categories (squat, hip hinge, push, pull, twisting, carrying).
+	The selection emphasizes BJJ-specific movements like Bent-Over Rows, Hip Thrusts, and Farmer’s Walk.
+	Sport Specificity: Exercise selection is based on training the necessary movement patterns, not one specific exercise.
+	Exercise Substitution
+	User presses the [change exercise] button.
+	System offers alternatives (e.g., swapping a conventional Deadlift for a Trap Bar Deadlift or Deadlift from blocks) if the exercise is unsafe or puts too much stress on the low back due to existing BJJ live training.
+	Safety and Context: The choice must fit safely within the bigger structure of their plan.
+	Warm-up Integration
+	User views the pre-programmed warm-up routine.
+	The system utilizes features like a Guided Warmups planner to optimize training sessions without causing premature fatigue.
+	Optimization: A well-structured warm-up is crucial for optimizing training sessions.
+	Phase 3: Workout Execution and Dynamic Feedback (Adjustment Loop)
+This phase reflects the real-time coaching where the app learns from the user.
+Step in CJM
+	User Action & Variable Control
+	Strategic System Logic/Output
+	Principle Supported (Source)
+	Set Execution
+	User initiates an exercise (e.g., Floor Press).
+	System displays the acute variables: "set 1, reps weight" and potentially tempo/cadence.
+	BJJ Specifics: Isometric Overload Training (paused squats) is used, as grapplers are often under tension.
+	Performance Input
+	After completing the set, the user logs actual reps and provides performance feedback (e.g., RPE/difficulty rating).
+	The app learns from user feedback. The app is only as effective as the information the user gives it.
+	Track and Adjust: This data allows for Adjustments Every Step of the Way.
+	Immediate Adjustment
+	(System runs automatically).
+	The system adjusts the weight or reps for the next set, ensuring the intensity remains appropriate (e.g., if the user struggles with the 85% 1RM goal).
+	Set to Set Adjustments: The app must utilize feedback to refine the program.
+	Complex Training
+	User performs BJJ-specific complexes (e.g., single-arm pressing with an isometric hold on the opposite arm).
+	The system guides the user through complex training, such as Psycho Isometric Training, combining isometric holds with an explosive movement (e.g., an explosive push-up) to improve power output and mental ability.
+	Developing Power: Power is the relationship between force and how fast it is applied. This training improves reactive ability from elongated positions.
+	Finish Exercise
+	User confirms completion and cycles back to the Exercise list.
+	Logs the entire session history.
+	History Tracking: The more training done with the app, the better it gets at optimizing the program.
+	Phase 4: Long-Term Review and Mesocycle Progression
+The final phase governs the strategic shifts required to maximize long-term athletic potential.
+Step in CJM
+	System Action & Analysis
+	Strategic System Logic/Output
+	Principle Supported (Source)
+	Block Analysis
+	System tracks performance and compliance over the last 4–6 weeks.
+	System ensures progressive overloading. The variations in training variables are necessary to keep the client progressing and avoid a plateau.
+	Tracks and Grows with You: JuggernautAI utilizes hundreds of data points about training to optimize the program.
+	Phase Shift Decision
+	(System runs automatically).
+	System determines if a Mesocycle phase shift is necessary (typically every 4–6 weeks), transitioning the athlete to the next phase (e.g., from Muscular Development to Maximal Strength).
+	Periodization Strategy: Without periodization, the client/athlete may not reach full potential.
+	Macrocycle Update
+	System updates the long-term plan, dynamically scheduling the next block of training (mesocycle) based on the athlete's progress and upcoming competition schedule.
+	The program adjusts to the athlete's feedback to create the best program for them.
+	Avoids Plateau: Training requires a variable stimulus; phase shifts prevent the neuromuscular system from adapting to the current training over time.

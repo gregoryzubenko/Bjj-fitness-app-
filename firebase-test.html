@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+        #log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 4px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Firebase Connection Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Firebase Initialization</h2>
+        <div id="initStatus" class="status">Checking...</div>
+        <button onclick="testFirebaseInit()">Test Firebase Init</button>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Authentication Test</h2>
+        <div id="authStatus" class="status">Not tested</div>
+        <div>
+            <input type="email" id="testEmail" placeholder="test@example.com" value="test@example.com">
+            <input type="password" id="testPassword" placeholder="password123" value="password123">
+        </div>
+        <button onclick="testSignUp()">Test Sign Up</button>
+        <button onclick="testSignIn()">Test Sign In</button>
+        <button onclick="testSignOut()">Test Sign Out</button>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Firestore Test</h2>
+        <div id="firestoreStatus" class="status">Not tested</div>
+        <button onclick="testFirestore()">Test Firestore Write</button>
+        <button onclick="testFirestoreRead()">Test Firestore Read</button>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Debug Log</h2>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="log"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyC07x1eXhaId8g5E4MCKSuFyacqrF5TnXg",
+            authDomain: "fitness-bjj-app.firebaseapp.com",
+            projectId: "fitness-bjj-app",
+            storageBucket: "fitness-bjj-app.firebasestorage.app",
+            messagingSenderId: "266210278805",
+            appId: "1:266210278805:web:1870d707bf92104c12ca9c"
+        };
+
+        let auth, db;
+        let logElement = document.getElementById('log');
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            logElement.innerHTML += logMessage + '<br>';
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(logMessage);
+        }
+
+        function clearLog() {
+            logElement.innerHTML = '';
+        }
+
+        function updateStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+
+        async function testFirebaseInit() {
+            try {
+                log('Testing Firebase initialization...');
+                
+                if (firebase.apps.length === 0) {
+                    firebase.initializeApp(firebaseConfig);
+                    log('Firebase app initialized');
+                } else {
+                    log('Firebase app already initialized');
+                }
+
+                auth = firebase.auth();
+                db = firebase.firestore();
+                
+                log('Auth and Firestore objects created');
+                updateStatus('initStatus', 'Firebase initialized successfully', 'success');
+                
+            } catch (error) {
+                log(`Firebase init error: ${error.message}`, 'error');
+                updateStatus('initStatus', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSignUp() {
+            if (!auth) {
+                updateStatus('authStatus', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+
+            try {
+                log(`Attempting to sign up: ${email}`);
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                log(`Sign up successful: ${userCredential.user.uid}`);
+                updateStatus('authStatus', 'Sign up successful', 'success');
+            } catch (error) {
+                log(`Sign up error: ${error.code} - ${error.message}`, 'error');
+                updateStatus('authStatus', `Sign up failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSignIn() {
+            if (!auth) {
+                updateStatus('authStatus', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+
+            try {
+                log(`Attempting to sign in: ${email}`);
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                log(`Sign in successful: ${userCredential.user.uid}`);
+                updateStatus('authStatus', 'Sign in successful', 'success');
+            } catch (error) {
+                log(`Sign in error: ${error.code} - ${error.message}`, 'error');
+                updateStatus('authStatus', `Sign in failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSignOut() {
+            if (!auth) {
+                updateStatus('authStatus', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            try {
+                await auth.signOut();
+                log('Sign out successful');
+                updateStatus('authStatus', 'Sign out successful', 'success');
+            } catch (error) {
+                log(`Sign out error: ${error.message}`, 'error');
+                updateStatus('authStatus', `Sign out failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testFirestore() {
+            if (!db) {
+                updateStatus('firestoreStatus', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            try {
+                log('Testing Firestore write...');
+                const testData = {
+                    message: 'Hello Firestore!',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    test: true
+                };
+                
+                await db.collection('test').add(testData);
+                log('Firestore write successful');
+                updateStatus('firestoreStatus', 'Firestore write successful', 'success');
+            } catch (error) {
+                log(`Firestore write error: ${error.message}`, 'error');
+                updateStatus('firestoreStatus', `Firestore write failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testFirestoreRead() {
+            if (!db) {
+                updateStatus('firestoreStatus', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            try {
+                log('Testing Firestore read...');
+                const snapshot = await db.collection('test').limit(5).get();
+                log(`Firestore read successful: ${snapshot.size} documents found`);
+                updateStatus('firestoreStatus', `Firestore read successful: ${snapshot.size} docs`, 'success');
+            } catch (error) {
+                log(`Firestore read error: ${error.message}`, 'error');
+                updateStatus('firestoreStatus', `Firestore read failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-run initialization test on page load
+        window.addEventListener('load', () => {
+            log('Firebase Test Page loaded');
+            testFirebaseInit();
+        });
+    </script>
+</body>
+</html>

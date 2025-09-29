@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BJJ Strength Training App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-dumbbell"></i>
+                <span>BJJ Strength</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#dashboard" class="nav-link" id="dashboardLink" style="display: none;">Dashboard</a>
+                <a href="#workout" class="nav-link" id="workoutLink" style="display: none;">Workout</a>
+                <a href="#progress" class="nav-link" id="progressLink" style="display: none;">Progress</a>
+                <button class="nav-link logout-btn" id="logoutBtn" onclick="logout()" style="display: none;">Logout</button>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Landing Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Unlock Your BJJ Potential</h1>
+                    <p class="hero-subtitle">AI-powered strength training designed specifically for Brazilian Jiu-Jitsu athletes</p>
+                    <div class="hero-features">
+                        <div class="feature">
+                            <i class="fas fa-brain"></i>
+                            <span>Smart Periodization</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Real-time Adjustments</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-fist-raised"></i>
+                            <span>BJJ-Specific Training</span>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <button class="cta-button" onclick="startJourney()">
+                            Start Your Journey
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button class="cta-button-secondary" onclick="openAuthModal('login')">
+                            Log In
+                            <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="mockup-phone">
+                        <div class="phone-screen">
+                            <div class="app-preview">
+                                <div class="preview-header">Today's Workout</div>
+                                <div class="preview-exercise">
+                                    <div class="exercise-name">Floor Press</div>
+                                    <div class="exercise-details">3 sets × 5 reps @ 85% 1RM</div>
+                                </div>
+                                <div class="preview-exercise">
+                                    <div class="exercise-name">Bent-Over Row</div>
+                                    <div class="exercise-details">3 sets × 8 reps @ 80% 1RM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessment Forms -->
+        <section id="assessment" class="page">
+            <div class="assessment-container">
+                <div class="assessment-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="assessmentProgress"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">Step 1 of 3</span>
+                </div>
+
+                <!-- Personal Details Form -->
+                <div class="form-step active" id="personalDetails">
+                    <h2>Personal Details</h2>
+                    <form class="assessment-form">
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" min="16" max="65" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Weight (lbs)</label>
+                            <input type="number" id="weight" min="80" max="400" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="height">Height (inches)</label>
+                            <input type="number" id="height" min="48" max="84" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">BJJ Experience</label>
+                            <select id="experience" required>
+                                <option value="">Select Experience Level</option>
+                                <option value="beginner">Beginner (0-1 years)</option>
+                                <option value="intermediate">Intermediate (1-3 years)</option>
+                                <option value="advanced">Advanced (3+ years)</option>
+                                <option value="expert">Expert (5+ years)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recovery">Recovery Goals</label>
+                            <select id="recovery" required>
+                                <option value="">Select Recovery Focus</option>
+                                <option value="injury_prevention">Injury Prevention</option>
+                                <option value="performance">Performance Enhancement</option>
+                                <option value="rehabilitation">Rehabilitation</option>
+                                <option value="general">General Fitness</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="competitionDate">Next Competition Date (Optional)</label>
+                            <input type="date" id="competitionDate">
+                        </div>
+                        <button type="button" class="btn-primary" onclick="nextStep()">Continue</button>
+                    </form>
+                </div>
+
+                <!-- Strength Assessment Form -->
+                <div class="form-step" id="strengthAssessment">
+                    <h2>Strength Assessment</h2>
+                    <p class="form-description">Enter your current max lifts or estimate your 1 Rep Max (1RM)</p>
+                    <form class="assessment-form">
+                        <div class="form-group">
+                            <label for="benchPress">Bench Press 1RM (lbs)</label>
+                            <input type="number" id="benchPress" min="50" max="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deadlift">Deadlift 1RM (lbs)</label>
+                            <input type="number" id="deadlift" min="50" max="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="squat">Squat 1RM (lbs)</label>
+                            <input type="number" id="squat" min="50" max="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="overheadPress">Overhead Press 1RM (lbs)</label>
+                            <input type="number" id="overheadPress" min="25" max="500" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="barbellRow">Barbell Row 1RM (lbs)</label>
+                            <input type="number" id="barbellRow" min="25" max="500" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep()">Back</button>
+                            <button type="button" class="btn-primary" onclick="nextStep()">Continue</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Goals and Preferences -->
+                <div class="form-step" id="goalsPreferences">
+                    <h2>Goals & Preferences</h2>
+                    <form class="assessment-form">
+                        <div class="form-group">
+                            <label for="trainingDays">Training Days Per Week</label>
+                            <select id="trainingDays" required>
+                                <option value="">Select Frequency</option>
+                                <option value="2">2 days</option>
+                                <option value="3">3 days</option>
+                                <option value="4">4 days</option>
+                                <option value="5">5 days</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sessionLength">Session Length (minutes)</label>
+                            <select id="sessionLength" required>
+                                <option value="">Select Duration</option>
+                                <option value="30">30 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="60">60 minutes</option>
+                                <option value="90">90 minutes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bjjSchedule">BJJ Training Schedule</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="monday"> Monday
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="tuesday"> Tuesday
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="wednesday"> Wednesday
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="thursday"> Thursday
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="friday"> Friday
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="saturday"> Saturday
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="sunday"> Sunday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep()">Back</button>
+                            <button type="button" class="btn-primary" onclick="generateProgram()">Generate My Program</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="page">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h1>Dashboard</h1>
+                    <div class="user-info">
+                        <span class="user-name" id="userName">Welcome back!</span>
+                        <div class="current-phase">
+                            <span class="phase-label">Current Phase:</span>
+                            <span class="phase-name" id="currentPhase">Maximal Strength</span>
+                        </div>
+                        <div class="phase-actions">
+                            <button class="btn-secondary" onclick="startAssessment()" style="margin-top: 10px;">
+                                <i class="fas fa-clipboard-check"></i>
+                                Test Assessment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Today's Workout Card -->
+                    <div class="dashboard-card workout-card">
+                        <div class="card-header">
+                            <h3>Today's Workout</h3>
+                            <span class="workout-duration">45 min</span>
+                        </div>
+                        <div class="workout-preview" id="workoutPreview">
+                            <div class="exercise-item">
+                                <div class="exercise-name">Floor Press</div>
+                                <div class="exercise-details">3 sets × 5 reps @ 85% 1RM</div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="exercise-name">Bent-Over Row</div>
+                                <div class="exercise-details">3 sets × 8 reps @ 80% 1RM</div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="exercise-name">Hip Thrust</div>
+                                <div class="exercise-details">3 sets × 10 reps @ 75% 1RM</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                            <button class="btn-secondary" onclick="switchWorkout()">Switch Day</button>
+                            <button class="btn-secondary" onclick="shuffleWorkout()">Shuffle</button>
+                            <button class="btn-primary" onclick="startWorkout()">Start Workout</button>
+                        </div>
+                    </div>
+
+                    <!-- Progress Overview -->
+                    <div class="dashboard-card progress-card">
+                        <div class="card-header">
+                            <h3>Progress Overview</h3>
+                            <span class="time-period">Last 4 weeks</span>
+                        </div>
+                        <div class="progress-metrics">
+                            <div class="metric">
+                                <div class="metric-value" id="metricWorkoutsCompleted">0</div>
+                                <div class="metric-label">Workouts Completed</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">+15%</div>
+                                <div class="metric-label">Strength Gain</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">95%</div>
+                                <div class="metric-label">Program Compliance</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Macrocycle View -->
+                    <div class="dashboard-card macrocycle-card">
+                        <div class="card-header">
+                            <h3>Training Plan</h3>
+                            <span class="plan-duration">16 weeks</span>
+                        </div>
+                        <div class="macrocycle-timeline">
+                            <div class="timeline-phase completed">
+                                <div class="phase-indicator"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Stabilization</div>
+                                    <div class="phase-duration">Weeks 1-4</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase completed">
+                                <div class="phase-indicator"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Muscular Development</div>
+                                    <div class="phase-duration">Weeks 5-8</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase current">
+                                <div class="phase-indicator"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Maximal Strength</div>
+                                    <div class="phase-duration">Weeks 9-12</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase upcoming">
+                                <div class="phase-indicator"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Power</div>
+                                    <div class="phase-duration">Weeks 13-16</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="dashboard-card actions-card">
+                        <div class="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="viewProgress()">
+                                <i class="fas fa-chart-line"></i>
+                                View Progress
+                            </button>
+                            <button class="action-btn" onclick="changePhase()">
+                                <i class="fas fa-exchange-alt"></i>
+                                Change Phase
+                            </button>
+                            <button class="action-btn" onclick="changeAssessment()">
+                                <i class="fas fa-edit"></i>
+                                Change Assessment
+                            </button>
+                            <button class="action-btn" onclick="viewHistory()">
+                                <i class="fas fa-history"></i>
+                                Workout History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workout Interface -->
+        <section id="workout" class="page">
+            <div class="workout-container">
+                <div class="workout-header">
+                    <div class="workout-info">
+                        <h1 id="workoutTitle">Today's Workout</h1>
+                        <div class="workout-meta">
+                            <span class="workout-phase">Maximal Strength Phase</span>
+                            <span class="workout-duration">45 min</span>
+                        </div>
+                    </div>
+                    <div class="workout-controls" style="display: flex; align-items: center; gap: 16px;">
+                        <div id="workoutTimer" style="font-size: 1.5em; min-width: 100px; font-family: monospace;">00:00:00</div>
+                        <button id="workoutControlBtn" class="btn-primary" onclick="handleWorkoutControl()">Start Workout</button>
+                        <button class="btn-danger" onclick="endWorkout()">
+                            <i class="fas fa-stop"></i>
+                            End
+                        </button>
+                    </div>
+                </div>
+
+                <div class="workout-content">
+                    <!-- Warm-up Section -->
+                    <div class="workout-section" id="warmupSection">
+                        <div class="section-header">
+                            <h3>Warm-up</h3>
+                            <button class="btn-secondary" onclick="toggleSection('warmupSection')">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="section-content">
+                            <div class="warmup-exercises">
+                                <div class="warmup-item">
+                                    <div class="exercise-name">Dynamic Stretching</div>
+                                    <div class="exercise-details">5 minutes</div>
+                                </div>
+                                <div class="warmup-item">
+                                    <div class="exercise-name">Light Cardio</div>
+                                    <div class="exercise-details">5 minutes</div>
+                                </div>
+                                <div class="warmup-item">
+                                    <div class="exercise-name">Movement Prep</div>
+                                    <div class="exercise-details">5 minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Exercises -->
+                    <div class="workout-section" id="mainExercises">
+                        <div class="section-header">
+                            <h3>Main Exercises</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="exercise-list" id="exerciseList">
+                                <!-- Exercise items will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Tracking -->
+        <section id="progress" class="page">
+            <div class="progress-container">
+                <div class="progress-header">
+                    <h1>Progress Tracking</h1>
+                    <div class="progress-filters">
+                        <select id="timeFilter">
+                            <option value="4weeks">Last 4 weeks</option>
+                            <option value="8weeks">Last 8 weeks</option>
+                            <option value="12weeks">Last 12 weeks</option>
+                            <option value="all">All time</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="progress-grid">
+                    <!-- Strength Progress Chart -->
+                    <div class="progress-card">
+                        <div class="card-header">
+                            <h3>Strength Progress</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="strengthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Workout Frequency -->
+                    <div class="progress-card">
+                        <div class="card-header">
+                            <h3>Workout Frequency</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="frequencyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Phase Analysis -->
+                    <div class="progress-card">
+                        <div class="card-header">
+                            <h3>Phase Analysis</h3>
+                        </div>
+                        <div class="phase-analysis">
+                            <div class="phase-stats">
+                                <div class="stat">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">Phases Completed</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">+22%</div>
+                                    <div class="stat-label">Average Strength Gain</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">92%</div>
+                                    <div class="stat-label">Program Compliance</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Workouts -->
+                    <div class="progress-card">
+                        <div class="card-header">
+                            <h3>Recent Workouts</h3>
+                        </div>
+                        <div class="workout-history" id="recentWorkouts">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Settings -->
+        <section id="profile" class="page">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h1>Profile & Settings</h1>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <h3>Personal Information</h3>
+                        </div>
+                        <div class="profile-form">
+                            <div class="form-group">
+                                <label for="profileName">Name</label>
+                                <input type="text" id="profileName" value="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileEmail">Email</label>
+                                <input type="email" id="profileEmail" value="john@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileWeight">Current Weight (lbs)</label>
+                                <input type="number" id="profileWeight" value="180">
+                            </div>
+                            <button class="btn-primary">Update Profile</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <h3>Training Preferences</h3>
+                        </div>
+                        <div class="preferences-form">
+                            <div class="form-group">
+                                <label for="preferredDays">Preferred Training Days</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" checked> Monday
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" checked> Wednesday
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" checked> Friday
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessionLength">Preferred Session Length</label>
+                                <select id="sessionLength">
+                                    <option value="45" selected>45 minutes</option>
+                                    <option value="60">60 minutes</option>
+                                    <option value="90">90 minutes</option>
+                                </select>
+                            </div>
+                            <button class="btn-primary">Update Preferences</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <h3>Program Settings</h3>
+                        </div>
+                        <div class="program-settings">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Auto-adjust weights</div>
+                                    <div class="setting-description">Automatically adjust weights based on performance</div>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Phase notifications</div>
+                                    <div class="setting-description">Get notified when transitioning between phases</div>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Workout reminders</div>
+                                    <div class="setting-description">Receive reminders for scheduled workouts</div>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Exercise Detail Modal -->
+    <div class="modal" id="exerciseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalExerciseName">Exercise Name</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="exercise-details">
+                    <div class="set-info">
+                        <span class="set-number">Set 1</span>
+                        <span class="set-target">5 reps @ 85% 1RM</span>
+                    </div>
+                    <div class="set-inputs">
+                        <div class="input-group">
+                            <label>Weight (lbs)</label>
+                            <input type="number" id="setWeight" value="185">
+                        </div>
+                        <div class="input-group">
+                            <label>Reps Completed</label>
+                            <input type="number" id="setReps" value="5">
+                        </div>
+                        <div class="input-group">
+                            <label>RPE (1-10)</label>
+                            <select id="setRPE">
+                                <option value="6">6 - Easy</option>
+                                <option value="7">7 - Light</option>
+                                <option value="8" selected>8 - Moderate</option>
+                                <option value="9">9 - Hard</option>
+                                <option value="10">10 - Max Effort</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="set-actions">
+                        <button class="btn-secondary" onclick="substituteExercise()">Change Exercise</button>
+                        <button class="btn-primary" onclick="completeSet()">Complete Set</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Sign Up</h3>
+                <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="authForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="authEmail">Email</label>
+                        <input type="email" id="authEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="authPassword">Password</label>
+                        <input type="password" id="authPassword" required minlength="6">
+                    </div>
+                    <div id="authError" class="auth-error" style="display: none;"></div>
+                    <div class="auth-actions">
+                        <button type="submit" class="btn-primary" id="authSubmitBtn">
+                            <span id="authSubmitText">Sign Up</span>
+                            <i class="fas fa-spinner fa-spin" id="authSpinner" style="display: none;"></i>
+                        </button>
+                        <a href="#" id="forgotPasswordLink" onclick="resetPassword()" style="display: none;">Forgot password?</a>
+                    </div>
+                    <div class="auth-switch">
+                        <span id="authSwitchText">Already have an account?</span>
+                        <a href="#" id="authSwitchLink" onclick="switchAuthMode()">Log In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase Change Modal -->
+    <div class="modal" id="phaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Training Phase</h3>
+                <button class="modal-close" onclick="closePhaseModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="phase-selection">
+                    <p>Select your current training phase:</p>
+                    <div class="phase-options">
+                        <label class="phase-option">
+                            <input type="radio" name="phase" value="Stabilization">
+                            <div class="phase-card">
+                                <h4>Stabilization</h4>
+                                <p>Foundation building phase</p>
+                                <small>Weeks 1-4</small>
+                            </div>
+                        </label>
+                        <label class="phase-option">
+                            <input type="radio" name="phase" value="Muscular Development">
+                            <div class="phase-card">
+                                <h4>Muscular Development</h4>
+                                <p>Strength building phase</p>
+                                <small>Weeks 5-8</small>
+                            </div>
+                        </label>
+                        <label class="phase-option">
+                            <input type="radio" name="phase" value="Maximal Strength">
+                            <div class="phase-card">
+                                <h4>Maximal Strength</h4>
+                                <p>Peak strength phase</p>
+                                <small>Weeks 9-12</small>
+                            </div>
+                        </label>
+                        <label class="phase-option">
+                            <input type="radio" name="phase" value="Power">
+                            <div class="phase-card">
+                                <h4>Power</h4>
+                                <p>Explosive power phase</p>
+                                <small>Weeks 13-16</small>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-secondary" onclick="closePhaseModal()">Cancel</button>
+                        <button class="btn-primary" onclick="confirmPhaseChange()">Change Phase</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
