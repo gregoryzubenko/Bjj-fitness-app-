@@ -74,7 +74,7 @@ function resetWorkoutTimer() {
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyC07x1eXhaId8g5E4MCKSuFyacqrF5TnXg",
+    apiKey: "YOUR_API_KEY",
     authDomain: "fitness-bjj-app.firebaseapp.com",
     projectId: "fitness-bjj-app",
     storageBucket: "fitness-bjj-app.firebasestorage.app",
